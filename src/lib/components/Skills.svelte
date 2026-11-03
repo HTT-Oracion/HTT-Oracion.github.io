@@ -5,14 +5,14 @@
 	let { skills }: { skills: SkillGroup[] } = $props();
 </script>
 
-<section id="skills" class="section">
+<section id="skills" class="section section-alt">
 	<div class="container">
 		<p class="section-label" data-reveal use:reveal>02 · 技能</p>
 		<h2 class="section-title" data-reveal use:reveal>日常在用的工具箱</h2>
 
 		<div class="groups">
-			{#each skills as group (group.label)}
-				<div class="group" data-reveal use:reveal>
+			{#each skills as group, gi (group.label)}
+				<div class="group" data-reveal use:reveal={{ delay: gi * 70 }}>
 					<h3 class="group-label">{group.label}</h3>
 					<ul class="chips">
 						{#each group.items as item (item)}

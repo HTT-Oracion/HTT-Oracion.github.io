@@ -5,7 +5,7 @@
 	let { profile }: { profile: Profile } = $props();
 </script>
 
-<section id="contact" class="section">
+<section id="contact" class="section section-alt">
 	<div class="container">
 		<p class="section-label" data-reveal use:reveal>04 · 联系</p>
 		<h2 class="section-title" data-reveal use:reveal>有合适的机会,欢迎聊聊</h2>

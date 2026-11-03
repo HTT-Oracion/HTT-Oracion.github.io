@@ -225,13 +225,41 @@ html.js [data-reveal] {
 	opacity: 0;
 	transform: translateY(12px);
 	transition:
-		opacity var(--dur) var(--ease),
-		transform var(--dur) var(--ease);
+		opacity var(--dur) var(--ease) var(--reveal-delay, 0ms),
+		transform var(--dur) var(--ease) var(--reveal-delay, 0ms);
 }
 
 html.js [data-reveal].revealed {
 	opacity: 1;
 	transform: none;
+}
+
+/* —— 区块交替底色:与纯色区块形成节奏 —— */
+.section-alt {
+	background: var(--surface);
+	border-block: 1px solid var(--border);
+}
+
+/* —— 工程网格纹理(用于 hero 等大区块,线条极淡)—— */
+.bg-grid {
+	position: relative;
+}
+
+.bg-grid::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image:
+		linear-gradient(to right, color-mix(in srgb, var(--border-strong) 55%, transparent) 1px, transparent 1px),
+		linear-gradient(to bottom, color-mix(in srgb, var(--border-strong) 55%, transparent) 1px, transparent 1px);
+	background-size: 44px 44px;
+	-webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 92%);
+	mask-image: linear-gradient(to bottom, black 30%, transparent 92%);
+}
+
+.bg-grid > * {
+	position: relative;
 }
 
 /* —— 卡片通用 —— */

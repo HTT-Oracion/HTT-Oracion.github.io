@@ -52,9 +52,62 @@
 			clearInterval(blink);
 		};
 	});
+
+	/* —— 数字滚动:进入视口后 700ms ease-out 递增,仅触发一次 —— */
+	let statsEl: HTMLDListElement | undefined = $state();
+	let progress = $state(0);
+
+	function parseStat(v: string) {
+		const m = v.match(/^([^\d]*)([\d.]+)(.*)$/);
+		if (!m) return null;
+		return {
+			prefix: m[1] ?? '',
+			num: parseFloat(m[2]!),
+			decimals: (m[2]!.split('.')[1] ?? '').length,
+			suffix: m[3] ?? ''
+		};
+	}
+
+	const statText = $derived(
+		profile.stats.map((stat) => {
+			const p = parseStat(stat.value);
+			if (!p || progress >= 1) return stat.value;
+			const eased = 1 - Math.pow(1 - progress, 3);
+			return p.prefix + (p.num * eased).toFixed(p.decimals) + p.suffix;
+		})
+	);
+
+	$effect(() => {
+		if (!statsEl) return;
+		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (reduced) {
+			progress = 1;
+			return;
+		}
+
+		const io = new IntersectionObserver(
+			(entries) => {
+				if (!entries.some((e) => e.isIntersecting)) return;
+				io.disconnect();
+
+				const start = performance.now();
+				const duration = 700;
+				const step = (now: number) => {
+					const t = Math.min((now - start) / duration, 1);
+					progress = t;
+					if (t < 1) requestAnimationFrame(step);
+				};
+				requestAnimationFrame(step);
+			},
+			{ threshold: 0.4 }
+		);
+
+		io.observe(statsEl);
+		return () => io.disconnect();
+	});
 </script>
 
-<section id="top" class="hero">
+<section id="top" class="hero bg-grid">
 	<div class="container">
 		<p class="eyebrow" data-reveal use:reveal>
 			<span class="dot" aria-hidden="true"></span>
@@ -83,11 +136,11 @@
 			</a>
 		</div>
 
-		<dl class="stats" data-reveal use:reveal>
-			{#each profile.stats as stat (stat.label)}
+		<dl class="stats" data-reveal use:reveal bind:this={statsEl}>
+			{#each profile.stats as stat, i (stat.label)}
 				<div class="stat">
 					<dt class="stat-label">{stat.label}</dt>
-					<dd class="stat-value tnum">{stat.value}</dd>
+					<dd class="stat-value tnum">{statText[i] ?? stat.value}</dd>
 				</div>
 			{/each}
 		</dl>

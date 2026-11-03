@@ -16,9 +16,9 @@
 	}
 </script>
 
-<article class="project" class:flip data-reveal use:reveal>
+<article class="project" class:flip>
 	<!-- 截图区:主图可切换 -->
-	<figure class="media card">
+	<figure class="media card" data-reveal use:reveal>
 		<div class="frame" style="aspect-ratio: {current.width} / {current.height};">
 			{#if !loaded[active]}
 				<div class="skeleton" aria-hidden="true"></div>
@@ -53,7 +53,7 @@
 	</figure>
 
 	<!-- 文案区 -->
-	<div class="body">
+	<div class="body" data-reveal use:reveal={{ delay: 90 }}>
 		<p class="meta tnum">{project.period} · {project.role}</p>
 		<h3 class="name">{project.name}</h3>
 		<p class="subtitle">{project.subtitle}</p>
@@ -112,11 +112,20 @@
 		overflow: hidden;
 		position: relative;
 		box-shadow: var(--shadow-1);
+		transition:
+			transform var(--dur) var(--ease),
+			box-shadow var(--dur) var(--ease);
+	}
+
+	.project:hover .media {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-2);
 	}
 
 	.frame {
 		position: relative;
 		width: 100%;
+		overflow: hidden;
 	}
 
 	.frame img {
@@ -126,11 +135,17 @@
 		height: 100%;
 		object-fit: cover;
 		opacity: 0;
-		transition: opacity var(--dur) var(--ease);
+		transition:
+			opacity var(--dur) var(--ease),
+			transform 480ms var(--ease);
 	}
 
 	.frame img.ready {
 		opacity: 1;
+	}
+
+	.project:hover .frame img.ready {
+		transform: scale(1.025);
 	}
 
 	.skeleton {
