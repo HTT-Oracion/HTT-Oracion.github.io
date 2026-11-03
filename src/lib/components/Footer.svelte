@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { profile } from '$lib/data';
+
 	const year = new Date().getFullYear();
 </script>
 
 <footer class="footer">
 	<div class="container inner">
-		<p>© {year} lvjinbin</p>
+		<p>© {year} {profile.name}</p>
 		<p class="built">Built with Svelte 5 · 部署于 GitHub Pages</p>
 	</div>
 </footer>

@@ -34,7 +34,7 @@
 <header class="header">
 	<div class="container inner">
 		<a href="#top" class="brand" aria-label="回到顶部">
-			<span class="mark" aria-hidden="true">{profile.name.slice(0, 2)}</span>
+			<span class="mark" aria-hidden="true">{profile.name.slice(0, 1)}</span>
 			<span class="name">{profile.name}</span>
 		</a>
 

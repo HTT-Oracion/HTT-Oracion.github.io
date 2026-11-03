@@ -10,8 +10,8 @@
 </script>
 
 <svelte:head>
-	<title>lvjinbin — 前端开发工程师</title>
-	<meta name="description" content="lvjinbin 的个人作品集:企业级 SaaS、Chrome 插件、海外产品与数据平台的前端开发实践。" />
+	<title>{profile.name} — {profile.title}</title>
+	<meta name="description" content={`${profile.name}的个人作品集:企业级 SaaS、Chrome 插件、海外产品与数据平台的前端开发实践。`} />
 </svelte:head>
 
 <Header />

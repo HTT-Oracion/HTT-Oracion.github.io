@@ -12,6 +12,7 @@ export interface Profile {
 	stats: { value: string; label: string }[];
 	about: string;
 	email: string;
+	phone: string;
 	github: string;
 	links: { label: string; url: string }[];
 }
@@ -47,20 +48,22 @@ export interface Project {
 }
 
 export const profile: Profile = {
-	name: 'lvjinbin',
+	name: '吕锦滨',
 	title: '前端开发工程师',
 	tagline:
 		'三年多前端开发经验,做过企业级 SaaS、Chrome 插件、出海产品和数据平台。习惯从数据的角度做界面:把采集、分析到呈现的链路,做成用户真正愿意用的产品。',
 	keywords: ['React / Vue 双栈', '数据可视化', 'Chrome 插件全流程', 'SSR 性能优化', 'AI 应用落地'],
 	stats: [
-		{ value: '3 年+', label: '前端开发经验' },
-		{ value: '4 组', label: '完整项目' },
+		{ value: '4 年+', label: '前端开发经验' },
+		{ value: '8 组+', label: '完整项目' },
 		{ value: '100+', label: '服务企业租户' },
 		{ value: '5.0★', label: '上架插件评分' }
 	],
 	about:
 		'2021 年起从事前端开发,从媒体数据平台的四端开发起步,在跨境电商工具团队独立负责插件与站点,再到企业级客户体验管理平台负责分析看板与 AI 功能。技术上以 React / Vue 双栈为主,长期做数据可视化与工程化落地:主导过团队图表库封装与迁移、前端 CI 质量门禁、SSR 性能优化,也完整做过一款 Chrome 插件的从零到上架。日常重度使用 AI 工具提效,能独立跟进海外产品需求与英文技术文档。',
-	email: 'hello@example.com',
+	email: '1367100043@qq.com',
+	/** 脱敏展示,防止爬虫收集;完整号码不进页面 */
+	phone: '+86 159 **** 9335',
 	github: 'https://github.com/HTT-Oracion',
 	links: [{ label: 'GitHub', url: 'https://github.com/HTT-Oracion' }]
 };
@@ -100,6 +103,10 @@ export const experience: Experience[] = [
 
 export const skills: SkillGroup[] = [
 	{ label: '框架与语言', items: ['Vue 3', 'React', 'TypeScript', 'Next.js', 'Nuxt.js', 'UniApp'] },
+	{
+		label: 'AI 工具链',
+		items: ['Codex', 'OpenCode', 'ZCode', 'DeepSeek Harness', 'MCP 集成', 'AI Code Review']
+	},
 	{
 		label: '工程化与协作',
 		items: ['Vite', 'Jenkins CI', 'Chrome 插件全流程', 'SSR 性能优化', 'GitLab Webhook', '代码评审规范']
