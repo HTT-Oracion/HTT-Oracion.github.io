@@ -1,0 +1,243 @@
+/* ============================================================
+   设计令牌 — 「工程档案」暗色世界
+   规则:单一强调色(琥珀)/ 单一冷灰系(hue 220)/
+   圆角三档(卡片16 · chips 8 · 主CTA pill)/ 动效统一语法
+   ============================================================ */
+
+/* 拉丁与数字:Space Grotesk 可变字体(300–700),自托管 22KB */
+@font-face {
+	font-family: 'Space Grotesk';
+	src: url('/fonts/space-grotesk-var.woff2') format('woff2-variations');
+	font-weight: 300 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	/* —— 色彩 · 暗色为默认主题 —— */
+	--bg: hsl(220 18% 7%);
+	--surface: hsl(220 15% 10%);
+	--surface-2: hsl(220 14% 13%);
+	--border: hsl(220 12% 17%);
+	--border-strong: hsl(220 12% 27%);
+	--text: hsl(220 20% 93%);
+	--text-2: hsl(220 12% 70%);
+	--text-3: hsl(220 8% 48%);
+	--accent: hsl(38 92% 57%);
+	--accent-ink: hsl(35 60% 8%); /* 强调色上的文字 */
+	--accent-soft: hsl(38 92% 57% 12%);
+
+	/* —— 圆角(唯一三档,不越界)—— */
+	--radius-card: 16px;
+	--radius-chip: 8px;
+	--radius-pill: 999px;
+
+	/* —— 间距(4 基数)—— */
+	--s-1: 4px;
+	--s-2: 8px;
+	--s-3: 12px;
+	--s-4: 16px;
+	--s-5: 24px;
+	--s-6: 32px;
+	--s-7: 48px;
+	--s-8: 64px;
+	--s-9: 96px;
+	--s-10: 128px;
+
+	/* —— 字体 —— */
+	--font-sans:
+		-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+		'Microsoft YaHei', 'Noto Sans SC', 'Segoe UI', sans-serif;
+	--font-display: 'Space Grotesk', var(--font-sans);
+	--font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+	/* —— 字号阶梯 —— */
+	--text-display: clamp(2.75rem, 6.5vw, 4.5rem);
+	--text-h2: clamp(1.75rem, 3.5vw, 2.5rem);
+	--text-h3: 1.25rem;
+	--text-body: 1rem;
+	--text-small: 0.875rem;
+	--text-label: 0.75rem;
+
+	/* —— 阴影(有偏移有虚化,不做零偏移光晕)—— */
+	--shadow-1: 0 1px 2px hsl(220 30% 2% 40%), 0 8px 24px hsl(220 30% 2% 35%);
+	--shadow-2: 0 2px 4px hsl(220 30% 2% 45%), 0 16px 40px hsl(220 30% 2% 40%);
+
+	/* —— 布局 —— */
+	--container: 1120px;
+	--measure: 68ch;
+	--header-h: 64px;
+
+	/* —— 动效(高频交互零动效;低频 150–300ms 强 ease-out)—— */
+	--dur-fast: 150ms;
+	--dur: 300ms;
+	--ease: cubic-bezier(0.23, 1, 0.32, 1);
+
+	color-scheme: dark;
+}
+
+/* —— 亮色主题:同一冷灰家族 + 强调色加深至对比达标 —— */
+[data-theme='light'] {
+	--bg: hsl(220 20% 98%);
+	--surface: hsl(220 25% 100%);
+	--surface-2: hsl(220 16% 95%);
+	--border: hsl(220 14% 88%);
+	--border-strong: hsl(220 12% 74%);
+	--text: hsl(222 22% 12%);
+	--text-2: hsl(220 10% 38%);
+	--text-3: hsl(220 8% 55%);
+	--accent: hsl(28 90% 38%);
+	--accent-ink: hsl(0 0% 100%);
+	--accent-soft: hsl(28 90% 45% 10%);
+
+	--shadow-1: 0 1px 2px hsl(220 25% 20% 8%), 0 8px 24px hsl(220 25% 20% 10%);
+	--shadow-2: 0 2px 4px hsl(220 25% 20% 10%), 0 16px 40px hsl(220 25% 20% 14%);
+
+	color-scheme: light;
+}
+
+/* ============================================================
+   基础层
+   ============================================================ */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	/* 锚点滚动时为固定 header 留出空间 */
+	scroll-padding-top: calc(var(--header-h) + 24px);
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	font-size: var(--text-body);
+	line-height: 1.7;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	margin: 0;
+	line-height: 1.2;
+	font-weight: 700;
+}
+
+p {
+	margin: 0;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+button {
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+}
+
+/* —— 浏览器细节:选区 / 焦点 / 滚动条 —— */
+::selection {
+	background: var(--accent);
+	color: var(--accent-ink);
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+	border-radius: var(--radius-chip);
+}
+
+html {
+	scrollbar-color: var(--border-strong) transparent;
+	scrollbar-width: thin;
+}
+
+/* —— 数据场景:数字对齐(用于统计/时间等)—— */
+.tnum {
+	font-variant-numeric: tabular-nums;
+}
+
+/* —— Reduce Motion:空间动效收敛为交叉淡入 —— */
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* ============================================================
+   布局工具类(全局,供各 section 复用)
+   ============================================================ */
+.container {
+	width: min(var(--container), calc(100% - var(--s-6) * 2));
+	margin-inline: auto;
+}
+
+.section {
+	padding-block: var(--s-9);
+}
+
+/* 区块标题:mono 标签 + 标题,标题上方留白大于下方(craft 规则) */
+.section-label {
+	font-family: var(--font-mono);
+	font-size: var(--text-label);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--accent);
+	margin: 0 0 var(--s-3);
+}
+
+.section-title {
+	font-size: var(--text-h2);
+	letter-spacing: -0.01em;
+	margin: 0 0 var(--s-7);
+}
+
+/* —— 滚动 reveal(仅 JS 可用时启用初始态,无 JS 也可读)—— */
+html.js [data-reveal] {
+	opacity: 0;
+	transform: translateY(12px);
+	transition:
+		opacity var(--dur) var(--ease),
+		transform var(--dur) var(--ease);
+}
+
+html.js [data-reveal].revealed {
+	opacity: 1;
+	transform: none;
+}
+
+/* —— 卡片通用 —— */
+.card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+}
+
