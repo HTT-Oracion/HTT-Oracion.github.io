@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { reveal } from '$lib/actions/reveal';
+	import DataFlow from './DataFlow.svelte';
 	import type { Profile } from '$lib/data';
 
 	let { profile }: { profile: Profile } = $props();
@@ -108,6 +109,7 @@
 </script>
 
 <section id="top" class="hero bg-grid">
+	<DataFlow />
 	<div class="container">
 		<p class="eyebrow" data-reveal use:reveal>
 			<span class="dot" aria-hidden="true"></span>
@@ -149,8 +151,16 @@
 
 <style>
 	.hero {
+		position: relative;
 		padding-block: calc(var(--header-h) + var(--s-9)) var(--s-8);
 		border-bottom: 1px solid var(--border);
+		overflow: hidden;
+	}
+
+	/* 网格纹理与画布在底层,文字内容始终在上层 */
+	.hero > :global(.container) {
+		position: relative;
+		z-index: 2;
 	}
 
 	.eyebrow {
